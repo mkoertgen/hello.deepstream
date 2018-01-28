@@ -2,14 +2,15 @@
 using System.Threading.Tasks;
 using DeepStreamNet;
 
-namespace net
+namespace ConsoleSample
 {
     class Program
     {
         static async Task Main(string[] args)
         {
-            var dsHost = GetEnv("DEEPSTREAM_HOST", "localhost");
-            var dsPort = GetEnv("DEEPSTREAM_PORT", 6020);
+            var url = GetEnv("DEEPSTREAM_URL", "localhost:6020").Split(':');
+            var dsHost = url[0];
+            var dsPort = int.Parse(url[1]);
 
             Console.WriteLine($"Connecting to DeepStream Server '{dsHost}:{dsPort}'...");
             var client = new DeepStreamClient(dsHost, dsPort);
@@ -40,12 +41,10 @@ namespace net
             Console.Read();
         }
 
-        static T GetEnv<T>(string variable, T defaultValue)
+        static string GetEnv(string name, string defaultValue)
         {
-            var value = Environment.GetEnvironmentVariable(variable);
-            return (value != null) 
-              ? (T)Convert.ChangeType(value, typeof(T))
-              : defaultValue;
+            var value = Environment.GetEnvironmentVariable(name);
+            return value ?? defaultValue;
         }
     }
 }

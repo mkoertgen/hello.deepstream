@@ -35,4 +35,4 @@ LABEL org.label-schema.build-date="${BUILD_DATE}" \
 
 WORKDIR /app
 COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "net.dll"]
+ENTRYPOINT ["dotnet", "ConsoleSample.dll"]

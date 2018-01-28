@@ -6,13 +6,20 @@ services:
     ports:
       - "6020:6020"
       - "8080:8080"
+    command: ./deepstream start --disable-auth --disable-permissions
   
   dotnet:
     build:
       context: ./dotnet
     environment:
-      DEEPSTREAM_HOST: deepstream
-      DEEPSTREAM_PORT: 6020
+      DEEPSTREAM_URL: deepstream:6020
     depends_on:
       - deepstream
   
+  java:
+    build:
+      context: ./java
+    environment:
+      DEEPSTREAM_URL: deepstream:6020
+    depends_on:
+      - deepstream
