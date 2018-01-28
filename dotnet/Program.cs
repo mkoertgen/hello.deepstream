@@ -8,7 +8,11 @@ namespace net
     {
         static async Task Main(string[] args)
         {
-            var client = new DeepStreamClient("localhost", 6020);
+            var dsHost = GetEnv("DEEPSTREAM_HOST", "localhost");
+            var dsPort = GetEnv("DEEPSTREAM_PORT", 6020);
+
+            Console.WriteLine($"Connecting to DeepStream Server '{dsHost}:{dsPort}'...");
+            var client = new DeepStreamClient(dsHost, dsPort);
 
             if (await client.LoginAsync())
             {
@@ -34,6 +38,14 @@ namespace net
 
             Console.WriteLine("Press any key to quit.");
             Console.Read();
+        }
+
+        static T GetEnv<T>(string variable, T defaultValue)
+        {
+            var value = Environment.GetEnvironmentVariable(variable);
+            return (value != null) 
+              ? (T)Convert.ChangeType(value, typeof(T))
+              : defaultValue;
         }
     }
 }
