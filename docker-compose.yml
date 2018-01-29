@@ -13,10 +13,6 @@ services:
   .deepstream-client: &deepstream-client  
     build:
       context: ./
-      args:
-        http_proxy: ${http_proxy}
-        https_proxy: ${http_proxy}
-        no_proxy: ${no_proxy}
     environment:
       DEEPSTREAM_URL: deepstream:6020
       DEEPSTREAM_USER: userA
@@ -28,6 +24,10 @@ services:
   dotnet:
     build:
       context: ./dotnet
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${http_proxy}
+        no_proxy: ${no_proxy}
     <<: *deepstream-client   
 
   java:
