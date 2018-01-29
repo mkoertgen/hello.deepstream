@@ -1,7 +1,7 @@
 version: '3'
 services:
   deepstream:
-    # 3.1.0 = latest, v4.0.0-rc.2-alpine (NOTE: v4 login not working)
+    # 3.1.0 (latest), v4.0.0-rc.2-alpine (NOTE: v4 login not working)
     image: deepstreamio/deepstream.io:3.1.0
     ports:
       - "6020:6020"
@@ -11,7 +11,12 @@ services:
     #command: ./deepstream start --disable-auth --disable-permissions
 
   .deepstream-client: &deepstream-client  
-    image: foo
+    build:
+      context: ./
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${http_proxy}
+        no_proxy: ${no_proxy}
     environment:
       DEEPSTREAM_URL: deepstream:6020
       DEEPSTREAM_USER: userA
@@ -28,4 +33,6 @@ services:
   java:
     build:
       context: ./java
+      args:
+        JAVA_OPTS: ${JAVA_OPTS}
     <<: *deepstream-client   
