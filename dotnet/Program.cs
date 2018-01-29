@@ -21,34 +21,27 @@ namespace ConsoleSample
                 if (!loggedIn) throw new InvalidOperationException($"Could not login with user '{user}'");
 
                 Console.WriteLine("Logged in.");
-                var eventName = GetEnv("DEEPSTREAM_EVENT", "test");
 
+                var eventName = GetEnv("DEEPSTREAM_EVENT", "test");
                 // https://github.com/dotnet/roslyn/issues/114
                 //using (var disp = await client.Events.SubscribeAsync(eventName, Console.WriteLine))
                 var disp = await client.Events.SubscribeAsync(eventName, Console.WriteLine);
                 try
                 {
                     Console.WriteLine($"Subscribed to '{eventName}'.");
-
-                    await Task.Delay(2000);
+                    await Task.Delay(1000);
 
                     const string data = "Hello World";
+                    Console.WriteLine($"Publishing '{eventName}: '{data}'...");
                     client.Events.Publish(eventName, data);
-                    Console.WriteLine($"Published '{eventName}: '{data}'.");
 
-                    await Task.Delay(3000);
-
-                    Console.WriteLine("Press any key to continue.");
-                    Console.ReadKey();
+                    while (true) await Task.Delay(1000);
                 }
                 finally
                 {
                     await disp.DisposeAsync();
                 }
             }
-
-            Console.WriteLine("Press any key to quit.");
-            Console.Read();
         }
 
         private static string GetEnv(string name, string defaultValue)
