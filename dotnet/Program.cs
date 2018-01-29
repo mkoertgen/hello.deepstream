@@ -31,7 +31,7 @@ namespace ConsoleSample
                     Console.WriteLine($"Subscribed to '{eventName}'.");
                     await Task.Delay(1000);
 
-                    const string data = "Hello World";
+                    const string data = "Hello from DotNet";
                     Console.WriteLine($"Publishing '{eventName}: '{data}'...");
                     client.Events.Publish(eventName, data);
 

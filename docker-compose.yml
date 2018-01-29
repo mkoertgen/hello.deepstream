@@ -6,44 +6,37 @@ services:
     ports:
       - "6020:6020"
       - "8080:8080"
-    volumes:
-      - ./deepstream/conf:/opt/deepstream/conf
+    # volumes:
+    #   - ./deepstream/conf:/opt/deepstream/conf
     #command: ./deepstream start --disable-auth --disable-permissions
 
-  .deepstream-client: &deepstream-client  
+  dotnet:
     build:
-      context: ./
+      context: ./dotnet
       args:
         http_proxy: ${http_proxy}
         https_proxy: ${http_proxy}
         no_proxy: ${no_proxy}
     environment:
       DEEPSTREAM_URL: deepstream:6020
-      DEEPSTREAM_USER: userA
+      DEEPSTREAM_USER: ${DEEPSTREAM_USER}
       DEEPSTREAM_PWD: ${DEEPSTREAM_PWD}
       DEEPSTREAM_EVENT: test
     depends_on:
       - deepstream
 
-  dotnet:
-    <<: *deepstream-client   
-    build:
-      context: ./dotnet
-
   java:
-    <<: *deepstream-client   
     build:
       context: ./java
       args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${http_proxy}
+        no_proxy: ${no_proxy}
         JAVA_OPTS: ${JAVA_OPTS}
-
-  java-builder:
-    image: gradle:4.5.0-jdk8-alpine
     environment:
-      http_proxy: ${http_proxy}
-      https_proxy: ${http_proxy}
-      no_proxy: ${no_proxy}
-      JAVA_OPTS: ${JAVA_OPTS}
-    volumes:
-      - ./java/:/home/gradle/
-    command: ash
+      DEEPSTREAM_URL: deepstream:6020
+      DEEPSTREAM_USER: ${DEEPSTREAM_USER}
+      DEEPSTREAM_PWD: ${DEEPSTREAM_PWD}
+      DEEPSTREAM_EVENT: test
+    depends_on:
+      - deepstream

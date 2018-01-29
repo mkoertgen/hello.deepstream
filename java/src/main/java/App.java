@@ -26,7 +26,7 @@ public class App {
         System.out.println(String.format("Subscribed to '%s'.", eventName));
         Thread.sleep(1000);
 
-        final String data = "Hello World";
+        final String data = "Hello from Java";
         System.out.println(String.format("Publishing '%s': '%s'...", eventName, data));
         client.event.emit(eventName, data);
 

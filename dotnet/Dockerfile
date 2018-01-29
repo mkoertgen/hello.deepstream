@@ -1,4 +1,9 @@
 FROM microsoft/dotnet:2.0.5-sdk-2.1.4 AS build-env
+
+ARG http_proxy=
+ARG https_proxy=
+ARG no_proxy=
+
 WORKDIR /app
 
 # copy csproj and restore as distinct layers
