@@ -13,6 +13,10 @@ services:
   .deepstream-client: &deepstream-client  
     build:
       context: ./
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${http_proxy}
+        no_proxy: ${no_proxy}
     environment:
       DEEPSTREAM_URL: deepstream:6020
       DEEPSTREAM_USER: userA
@@ -22,17 +26,24 @@ services:
       - deepstream
 
   dotnet:
+    <<: *deepstream-client   
     build:
       context: ./dotnet
-      args:
-        http_proxy: ${http_proxy}
-        https_proxy: ${http_proxy}
-        no_proxy: ${no_proxy}
-    <<: *deepstream-client   
 
   java:
+    <<: *deepstream-client   
     build:
       context: ./java
       args:
         JAVA_OPTS: ${JAVA_OPTS}
-    <<: *deepstream-client   
+
+  java-builder:
+    image: gradle:4.5.0-jdk8-alpine
+    environment:
+      http_proxy: ${http_proxy}
+      https_proxy: ${http_proxy}
+      no_proxy: ${no_proxy}
+      JAVA_OPTS: ${JAVA_OPTS}
+    volumes:
+      - ./java/:/home/gradle/
+    command: ash
