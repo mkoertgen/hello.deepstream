@@ -40,3 +40,18 @@ services:
       DEEPSTREAM_EVENT: test
     depends_on:
       - deepstream
+      
+  nodejs:
+      build:
+        context: ./nodejs
+        args:
+          http_proxy: ${http_proxy}
+          https_proxy: ${http_proxy}
+          no_proxy: ${no_proxy}
+      environment:
+        DEEPSTREAM_URL: deepstream:6020
+        DEEPSTREAM_USER: ${DEEPSTREAM_USER}
+        DEEPSTREAM_PWD: ${DEEPSTREAM_PWD}
+        DEEPSTREAM_EVENT: test
+      depends_on:
+        - deepstream

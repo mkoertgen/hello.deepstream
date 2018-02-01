@@ -1,0 +1,15 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "Hello DS NodeJS App",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Paul Hindenberg",
+  "license": "ISC",
+  "dependencies": {
+    "deepstream.io-client-js": "^2.3.0"
+  }
+}
