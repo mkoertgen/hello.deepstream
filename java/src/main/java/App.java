@@ -1,5 +1,7 @@
+import com.google.gson.JsonObject;
 import io.deepstream.DeepstreamClient;
 import io.deepstream.EventListener;
+import io.deepstream.RpcResult;
 import java.net.URISyntaxException;
 
 public class App {
@@ -29,6 +31,13 @@ public class App {
         final String data = "Hello from Java";
         System.out.println(String.format("Publishing '%s': '%s'...", eventName, data));
         client.event.emit(eventName, data);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("a", 7);
+        jsonObject.addProperty("b", 8);
+        RpcResult rpcResult = client.rpc.make( "/nodejs/multiply-numbers", jsonObject);
+        float result = (Float) rpcResult.getData(); // 56.0
+        System.out.println(String.format("Result: %s", result));
 
         while (true) Thread.sleep(1000);
     }

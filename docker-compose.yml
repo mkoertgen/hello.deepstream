@@ -24,6 +24,7 @@ services:
       DEEPSTREAM_EVENT: test
     depends_on:
       - deepstream
+      - nodejs
 
   java:
     build:
@@ -40,6 +41,7 @@ services:
       DEEPSTREAM_EVENT: test
     depends_on:
       - deepstream
+      - nodejs
       
   nodejs:
       build:

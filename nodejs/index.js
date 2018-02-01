@@ -61,9 +61,11 @@ function doTheSetup() {
 
     ds.event.subscribe('test-event', function (eventData) { /*do stuff*/ });
 
+    ds.rpc.provide('/nodejs/multiply-numbers', function (data, response) {
+        response.send(data.a * data.b);
+    });
 
-
-    ds.rpc.make('multiply-numbers', {
+    ds.rpc.make('/nodejs/multiply-numbers', {
         a: 6,
         b: 7
     }, function (err, result) {
@@ -71,11 +73,6 @@ function doTheSetup() {
         console.log('#Error:', err);
         console.log('#Result:', result)
     });
-
-    ds.rpc.provide('multiply-numbers', function (data, response) {
-        response.send(data.a * data.b);
-    });
-
 }
 
 ds.on('error', function (err) {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DeepStreamNet;
+using Newtonsoft.Json.Linq;
 
 namespace ConsoleSample
 {
@@ -34,6 +35,10 @@ namespace ConsoleSample
                     const string data = "Hello from DotNet";
                     Console.WriteLine($"Publishing '{eventName}: '{data}'...");
                     client.Events.Publish(eventName, data);
+
+                    var json = new JObject(new JProperty("a", 7), new JProperty("b", 8));
+                    var result = await client.Rpcs.MakeRequest<JObject, float>("/nodejs/multiply-numbers", json);
+                    Console.WriteLine($"Result: {result}");
 
                     while (true) await Task.Delay(1000);
                 }
